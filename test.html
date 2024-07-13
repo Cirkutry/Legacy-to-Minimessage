@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Legacy to MiniMessage Converter</title>
+    <meta name="description" content="A simple website that translates legacy color codes into MiniMessage format!">
+    <meta name="author" content="TehBrian, Cirkutry">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url('https://i.imgur.com/fi766Ff.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: #C6C2EA;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            animation: color-change 5s infinite alternate;
+        }
+
+        @keyframes color-change {
+            0% {
+                color: #C6C2EA;
+            }
+            25% {
+                color: #9bc9f7;
+            }
+            50% {
+                color: #C6C2EA;
+            }
+            75% {
+                color: #9bc9f7;
+            }
+            100% {
+                color: #C6C2EA;
+            }
+        }
+
+        .text-box,
+        .output-box {
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            background-color: #1e1e20;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            color: #C6C2EA;
+        }
+
+        .text-box,
+        .output-box {
+            min-height: 200px;
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+            cursor: pointer;
+            pointer-events: auto;
+            cursor: default;
+        }
+
+        label {
+            font-weight: bold;
+            margin-right: 10px;
+            color: #9bc9f7;
+        }
+
+        .sub {
+            font-weight: normal;
+            color: #777;
+            color: #C6C2EA;
+        }
+
+        input[type="checkbox"],
+        select {
+            margin: 0 10px 0 0;
+        }
+
+        button {
+            background-color: #9bc9f7;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s ease;
+            margin-bottom: 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        button:hover {
+            background-color: #C6C2EA;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .main-content {
+            width: 80%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 600px) {
+            .text-box,
+            .output-box {
+                width: 100%;
+            }
+
+            .main-content {
+                width: 100%;
+            }
+        }
+
+        .dialog-box {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #9bc9f7;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: none;
+            font-size: 14px;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .github-button {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            width: 125px;
+            height: 40px;
+            background-color: #9bc9f7;
+            color: black;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .github-button:hover {
+            background-color: #C6C2EA;
+        }
+
+        .github-button img {
+            max-width: 300%;
+            max-height: 300%;
+        }
+    </style>
+    <script defer src="main.js" charset="utf-8" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="main-content">
+        <h1>Legacy to MiniMessage Converter</h1>
+        <textarea id="text" name="text" rows="10" cols="80" class="text-box"></textarea>
+
+        <div class="form-group">
+            <label for="concise">Concise MiniMessage:</label>
+            <input type="checkbox" id="concise" name="concise">
+            <span class="sub">(&lt;u&gt; vs &lt;underlined&gt;)</span>
+        </div>
+
+        <div class="form-group">
+            <label for="char">Formatting Character:</label>
+            <select name="char" id="char">
+                <option value="&">&</option>
+                <option value="§">§</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="rgb">Convert RGB:</label>
+            <input type="checkbox" id="rgb" name="rgb" checked>
+            <span class="sub">(&amp;#RRGGBB to &lt;#RRGGBB&gt;)</span>
+        </div>
+
+        <button id="convert" name="convert">Convert!</button>
+
+        <textarea id="output" class="output-box" readonly></textarea>
+        <div class="dialog-box" id="dialog-box">Copied to clipboard!</div>
+    </div>
+    <button class="github-button" onclick="window.open('https://github.com/Cirkutry/Legacy-to-Minimessage', '_blank')">
+        <img src="https://i.imgur.com/isDArxY.png" alt="GitHub">
+    </button>
+</body>
+
+</html>
